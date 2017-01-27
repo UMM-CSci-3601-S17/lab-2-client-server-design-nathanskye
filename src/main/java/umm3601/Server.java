@@ -16,7 +16,7 @@ public class Server {
         UserController userController = new UserController();
 
         // Simple example route
-        get("/hello", (req, res) -> "Hello World");
+        get("/hello", (req, res) -> "Hello world!");
 
         // Redirects for the "home" page
         redirect.get("", "/");
