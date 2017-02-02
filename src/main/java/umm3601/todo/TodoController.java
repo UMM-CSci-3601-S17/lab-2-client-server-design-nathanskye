@@ -37,10 +37,10 @@ public class TodoController {
 //        return Arrays.stream(filteredTodos).filter(x -> x.age == age).toArray(Todo[]::new);
 //    }
 //
-//    // Get a single todo
-//    public Todo getTodo(String id) {
-//        return Arrays.stream(todos).filter(x -> x._id.equals(id)).findFirst().orElse(null);
-// }
+    // Get a single todo
+    public Todo getTodo(String id) {
+        return Arrays.stream(todos).filter(x -> x._id.equals(id)).findFirst().orElse(null);
+ }
 
 }
 
