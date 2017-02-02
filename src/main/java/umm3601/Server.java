@@ -4,6 +4,7 @@ import com.google.gson.Gson;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import umm3601.user.UserController;
+import umm3601.todo.TodoController;
 
 import java.io.IOException;
 
@@ -14,6 +15,7 @@ public class Server {
         staticFiles.location("/public");
         Gson gson = new Gson();
         UserController userController = new UserController();
+        TodoController todoController = new TodoController();
 
         // Simple example route
         get("/hello", (req, res) -> "Hello world!");
@@ -28,6 +30,7 @@ public class Server {
         // Redirect for the Users Form
         redirect.get("/users", "/users.html");
 
+        // For a question mark question
         get("/kittens", (req, res) -> {
             return "meow";
         });
@@ -43,6 +46,12 @@ public class Server {
             res.type("application/json");
             String id = req.params("id");
             return gson.toJson(userController.getUser(id));
+        });
+
+        //
+        get("api/todos", (req, res) -> {
+            res.type("application/json");
+            return wrapInJson("todos", gson.toJsonTree(todoController.listTodos(req.queryMap().toMap())));
         });
     }
 
