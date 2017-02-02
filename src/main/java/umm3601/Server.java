@@ -28,6 +28,10 @@ public class Server {
         // Redirect for the Users Form
         redirect.get("/users", "/users.html");
 
+        get("/kittens", (req, res) -> {
+            return "meow";
+        });
+
         // List users
         get("api/users", (req, res) -> {
             res.type("application/json");
