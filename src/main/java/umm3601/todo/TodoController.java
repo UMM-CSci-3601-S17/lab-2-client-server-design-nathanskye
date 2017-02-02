@@ -23,11 +23,20 @@ public class TodoController {
     public Todo[] listTodos(Map<String, String[]> queryParams) {
         Todo[] filteredTodos = todos;
 
-//        // Filter age if defined
-//        if(queryParams.containsKey("age")) {
-//            int age = Integer.parseInt(queryParams.get("age")[0]);
-//            filteredTodos = filterTodosByAge(filteredTodos, age);
-//        }
+        // Retrieves a maximum, max, number of todos
+        if(queryParams.containsKey("limit")) {
+            int max = Integer.parseInt(queryParams.get("limit")[0]);
+
+            // Allow maximum number of entries
+            if(max > 300)
+                max = 300;
+
+            filteredTodos = new Todo[max];
+
+            for (int i = 0; i < max; i++){
+                filteredTodos[i] = todos[i];
+            }
+        }
 
         return filteredTodos;
     }
@@ -41,6 +50,8 @@ public class TodoController {
     public Todo getTodo(String id) {
         return Arrays.stream(todos).filter(x -> x._id.equals(id)).findFirst().orElse(null);
  }
+
+
 
 }
 
