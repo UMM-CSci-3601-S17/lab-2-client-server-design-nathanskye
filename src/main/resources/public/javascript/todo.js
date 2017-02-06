@@ -6,31 +6,31 @@ window.onload = function() {
 }
 
 var search = function() {
-    // var HttpThingy = new HttpClient();
-    // HttpThingy.get("/api/users", function(returned_json){
-    //     document.getElementById('jsonDump').innerHTML = returned_json;
-    // });
-    //document.getElementById("jsonOutput").innerHTML = document.getElementById("id").value;
 
-    var request = "";
+    var request = "/api/todos?";
     var temp;
 
-    if( (temp = document.getElementById("id").value) != "")
-        request = request.concat(temp);
-
     if( (temp = document.getElementById("owner").value) != "")
-        request = request.concat(temp);
+        request = request.concat("owner=" + temp + "&");
 
     if( (temp = document.getElementById("status").value) != "")
-        request = request.concat(temp);
+        request = request.concat("status=" + temp + "&");
 
     if( (temp = document.getElementById("keyword").value) != "")
-        request = request.concat(temp);
+        request = request.concat("contains=" + temp + "&");
 
     if( (temp = document.getElementById("category").value) != "")
-        request = request.concat(temp);
+        request = request.concat("category=" + temp + "&");
 
-    document.getElementById("jsonOutput").innerHTML = request;
+    if( (temp = document.getElementById("limit").value) != "")
+        request = request.concat("limit=" + temp + "&");
+
+    //document.getElementById("jsonOutput").innerHTML = request;
+
+    var HttpThingy = new HttpClient();
+    HttpThingy.get(request, function(returned_json){
+        document.getElementById('jsonOutput').innerHTML = returned_json;
+    });
 
 }
 
