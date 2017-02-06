@@ -25,12 +25,12 @@ public class TodoController {
     public Todo[] listTodos(Map<String, String[]> queryParams) {
         Todo[] todos = allTodos;
 
-        // Filters todos by status
+        // Filters allTodos by status
         if (queryParams.containsKey("status")) {
             todos = filterStatus(queryParams.get("status")[0], todos);
         }
 
-        // Filters todos that don't contain a keyword out
+        // Filters allTodos that don't contain a keyword out
         if (queryParams.containsKey("contains")){
             todos = filterContains(queryParams.get("contains")[0], todos);
         }
@@ -47,7 +47,7 @@ public class TodoController {
             todos = sortTodos(queryParams.get("orderBy")[0], todos);
         }
 
-        // Retrieves a maximum, max, number of todos
+        // Retrieves a maximum, max, number of allTodos
         if(queryParams.containsKey("limit")) {
             int max = Integer.parseInt(queryParams.get("limit")[0]);
 
@@ -57,8 +57,9 @@ public class TodoController {
 
             todos = new Todo[max];
 
-            for (int i = 0; i < max; i++)
+            for (int i = 0; i < max; i++){
                 todos[i] = allTodos[i];
+            }
         }
 
         return todos;
@@ -68,24 +69,31 @@ public class TodoController {
     //Takes a string to be the category to sort by, and a Todo[] to sort
     //returns a Todo[]
     public Todo[] sortTodos(String field, Todo[] todos){
-
-        ArrayList<Todo> todoList = new ArrayList<>();
-        for (Todo todo : todos)
-            todoList.add(todo);
+        ArrayList<Todo> ALTodos = new ArrayList<Todo>();
+        for (Todo todo : todos){
+            ALTodos.add(todo);
+        }
 
         Comparator<Todo> sortTodos = new Comparator<Todo>() {
             public int compare(Todo todo1, Todo todo2) {
-                if (field.equals("owner")) return todo1.owner.compareTo(todo2.owner);
-                else if (field.equals("body")) return todo1.body.compareTo(todo2.body);
-                else if (field.equals("category")) return todo1.category.compareTo(todo2.category);
-                else if (field.equals("status")) return todo1.compareTo(todo2);
-                else if (field.equals("id")) return todo1._id.compareTo(todo2._id);
-                else return 0;
+                if (field.equals("owner")) {
+                    return todo1.owner.compareTo(todo2.owner);
+                } else if (field.equals("body")) {
+                    return todo1.body.compareTo(todo2.body);
+                } else if (field.equals("category")) {
+                    return todo1.category.compareTo(todo2.category);
+                } else if (field.equals("status")) {
+                    return todo1.compareTo(todo2);
+                } else if (field.equals("id")){
+                    return todo1._id.compareTo(todo2._id);
+                } else {
+                    return 0;
+                }
             }
         };
 
-        todoList.sort(sortTodos);
-        return todoList.toArray(todos);
+        ALTodos.sort(sortTodos);
+        return ALTodos.toArray(todos);
     }
 
     //filters a Todo[] by what category it's in
@@ -141,7 +149,12 @@ public class TodoController {
 
         return filteredTodos.toArray(new Todo[filteredTodos.size()]);
     }
-
+//
+//    // Filter allTodos by age
+//    public Todo[] filterTodosByAge(Todo[] todos, int age) {
+//        return Arrays.stream(todos).filter(x -> x.age == age).toArray(Todo[]::new);
+//    }
+//
     // Get a single todo
     public Todo getTodo(String id) {
         return Arrays.stream(allTodos).filter(x -> x._id.equals(id)).findFirst().orElse(null);
