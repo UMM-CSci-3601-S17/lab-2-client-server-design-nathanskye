@@ -14,25 +14,39 @@ import static org.junit.Assert.assertEquals;
 public class MultipleParameters {
 
     @Test
-    public void testOwnerStatusLimit() throws IOException {
+    public void testOwnerStatusLimitBlanche() throws IOException {
         TodoController todoController = new TodoController();
         Map<String, String[]> queryParams = new HashMap<>();
-        String[] value = {"Blanche"
-                , "complete",
-                "limit"};
-        queryParams.put("owner", value);
+        String[] blanche = {"Blanche"};
+        String[] complete = {"complete"};
+        String[] limit = {"12"};
+        queryParams.put("owner", blanche);
+        queryParams.put("status", complete);
+        queryParams.put("limit", limit);
 
         Todo[] todoList = todoController.listTodos(queryParams);
-        assertEquals("Number of todos with category \"software design\" is not 74", 74, todoList.length);
+        assertEquals("owner is not Blanche", "Blanche", todoList[0].owner);
+        assertEquals("status is not complete", true, todoList[0].status);
+        assertEquals("limit is not 12", 12, todoList.length);
     }
 
     @Test
-    public void numberOfVideoGames() throws IOException {
+    public void testOwnerStatusLimitFry() throws IOException {
         TodoController todoController = new TodoController();
         Map<String, String[]> queryParams = new HashMap<>();
-        String[] value = {"video games"};
-        queryParams.put("category", value);
+        String[] fry = {"Fry"};
+        String[] incomplete = {"incomplete"};
+        String[] limit = {"200"};
+        String[] contains = {"Ipsum"};
+        queryParams.put("owner", fry);
+        queryParams.put("status", incomplete);
+        queryParams.put("limit", limit);
+        queryParams.put("contains", contains);
+
         Todo[] todoList = todoController.listTodos(queryParams);
-        assertEquals("Number of todos with category \"video games\" is not 71", 71, todoList.length);
+        assertEquals("owner is not Fry", "Fry", todoList[0].owner);
+        assertEquals("status is not incomplete", false, todoList[0].status);
+        assertEquals("limit is not 1", 1, todoList.length);
+        assertEquals("does not contain Ipsum", "Ipsum esse est ullamco magna tempor anim laborum non officia deserunt veniam commodo. Aute minim incididunt ex commodo.", todoList[0].body);
     }
 }

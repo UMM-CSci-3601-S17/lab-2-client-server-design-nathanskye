@@ -52,14 +52,16 @@ public class TodoController {
             int max = Integer.parseInt(queryParams.get("limit")[0]);
 
             // Allow maximum number of entries
-            if(max > 300)
-                max = 300;
+            if(max > todos.length)
+                max = todos.length;
 
-            todos = new Todo[max];
+            Todo[] limitTodos = new Todo[max];
 
             for (int i = 0; i < max; i++){
-                todos[i] = allTodos[i];
+                limitTodos[i] = todos[i];
             }
+
+            todos = limitTodos;
         }
 
         return todos;
