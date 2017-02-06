@@ -4,8 +4,10 @@ import com.google.gson.Gson;
 
 import java.io.FileReader;
 import java.io.IOException;
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Comparator;
 import java.util.Map;
 
 /**
@@ -23,21 +25,6 @@ public class TodoController {
     // List todos
     public Todo[] listTodos(Map<String, String[]> queryParams) {
         Todo[] filteredTodos = todos;
-
-        // Retrieves a maximum, max, number of todos
-        if(queryParams.containsKey("limit")) {
-            int max = Integer.parseInt(queryParams.get("limit")[0]);
-
-            // Allow maximum number of entries
-            if(max > 300)
-                max = 300;
-
-            filteredTodos = new Todo[max];
-
-            for (int i = 0; i < max; i++){
-                filteredTodos[i] = todos[i];
-            }
-        }
 
         // Filters todos by status
         if (queryParams.containsKey("status")) {
@@ -57,9 +44,62 @@ public class TodoController {
             filteredTodos = filterCategory(queryParams.get("category")[0], filteredTodos);
         }
 
+        if (queryParams.containsKey("orderBy")){
+            filteredTodos = sortTodos(queryParams.get("orderBy")[0], filteredTodos);
+        }
+
+        // Retrieves a maximum, max, number of todos
+        if(queryParams.containsKey("limit")) {
+            int max = Integer.parseInt(queryParams.get("limit")[0]);
+
+            // Allow maximum number of entries
+            if(max > 300)
+                max = 300;
+
+            filteredTodos = new Todo[max];
+
+            for (int i = 0; i < max; i++){
+                filteredTodos[i] = todos[i];
+            }
+        }
+
         return filteredTodos;
     }
 
+    //Sorts a Todo[] alphabetically by a given category
+    //Takes a string to be the category to sort by, and a Todo[] to sort
+    //returns a Todo[]
+    public Todo[] sortTodos(String field, Todo[] filteredTodos){
+        ArrayList<Todo> ALTodos = new ArrayList<Todo>();
+        for (Todo todo : filteredTodos){
+            ALTodos.add(todo);
+        }
+
+        Comparator<Todo> sortTodos = new Comparator<Todo>() {
+            public int compare(Todo todo1, Todo todo2) {
+                if (field.equals("owner")) {
+                    return todo1.owner.compareTo(todo2.owner);
+                } else if (field.equals("body")) {
+                    return todo1.body.compareTo(todo2.body);
+                } else if (field.equals("category")) {
+                    return todo1.category.compareTo(todo2.category);
+                } else if (field.equals("status")) {
+                    return todo1.compareTo(todo2);
+                } else if (field.equals("id")){
+                    return todo1._id.compareTo(todo2._id);
+                } else {
+                    return 0;
+                }
+            }
+        };
+
+        ALTodos.sort(sortTodos);
+        return ALTodos.toArray(filteredTodos);
+    }
+
+    //filters a Todo[] by what category it's in
+    //Takes a String to be the category, and a Todo[] to filter
+    //Returns a Todo[]
     public Todo[] filterCategory(String category, Todo[] filteredTodos){
         int size = 0;
 

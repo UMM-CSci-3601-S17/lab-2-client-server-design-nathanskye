@@ -10,4 +10,14 @@ public class Todo {
     boolean status;
     String body;
     String category;
+
+    public int compareTo(Todo otherTodo){
+        if (status == otherTodo.status){
+            return 0;
+        } else if (status){
+            return 1;
+        } else {
+            return 0;
+        }
+    }
 }
