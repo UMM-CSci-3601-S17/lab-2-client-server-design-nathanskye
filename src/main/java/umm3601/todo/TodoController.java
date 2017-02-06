@@ -41,17 +41,20 @@ public class TodoController {
 
         // Filters todos by status
         if (queryParams.containsKey("status")) {
-            filteredTodos = filterContains(queryParams.get("status")[0], filteredTodos);
+            filteredTodos = filterStatus(queryParams.get("status")[0], filteredTodos);
         }
 
         if (queryParams.containsKey("contains")){
-
+            filteredTodos = filterContains(queryParams.get("contains")[0], filteredTodos);
         }
 
         return filteredTodos;
     }
 
-    public Todo[] filterContains(String Status, Todo[] filteredTodos){
+    // Filters a given array of Todos by their status.
+    // Takes a String Status, either "complete" or "incomplete" and a Todo[].
+    // Returns a Todo[]
+    public Todo[] filterStatus(String Status, Todo[] filteredTodos){
         boolean status = Status.equals("complete");
 
         int size = 0;
@@ -73,6 +76,29 @@ public class TodoController {
         }
 
         return statusTodos;
+    }
+
+    //Filters a Todo[] to contain only a given word
+    //Takes a string to search for, and a Todo[] to search in
+    //Returns a Todo[]
+    public Todo[] filterContains(String filter, Todo[] filteredTodos){
+        int size = 0;
+
+        for (Todo todo : filteredTodos){
+            String body = todo.body;
+            if (body.contains(filter))
+                size++;
+        }
+
+        Todo[] containTodos = new Todo[size];
+        size = 0;
+
+        for (Todo todo : filteredTodos){
+            if (todo.body.contains(filter))
+                containTodos[size++] = todo;
+        }
+
+        return containTodos;
     }
 //
 //    // Filter todos by age
