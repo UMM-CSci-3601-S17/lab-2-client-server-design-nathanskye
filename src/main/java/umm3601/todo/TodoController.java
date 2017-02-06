@@ -122,24 +122,14 @@ public class TodoController {
     //filters a Todo[] by who the owner is
     //Takes a String to be the owner, and a Todo[] to filter
     //Returns a Todo[]
-    public Todo[] filterOwner(String owner, Todo[] todos){
-        int size = 0;
+    public Todo[] filterOwner(String owner, Todo[] todos) {
+        ArrayList<Todo> filteredTodos = new ArrayList<>();
 
-        for (Todo todo : todos){
-            if (todo.owner.equals(owner))
-                size++;
-        }
+        for (Todo t : todos)
+            if (t.owner.equals(owner))
+                filteredTodos.add(t);
 
-        Todo[] ownerTodos = new Todo[size];
-        size = 0;
-
-        for (Todo todo : todos){
-            if (todo.owner.equals(owner)){
-                ownerTodos[size++] = todo;
-            }
-        }
-
-        return ownerTodos;
+        return filteredTodos.toArray(new Todo[filteredTodos.size()]);
     }
 
     // Filters a given array of Todos by their status.
