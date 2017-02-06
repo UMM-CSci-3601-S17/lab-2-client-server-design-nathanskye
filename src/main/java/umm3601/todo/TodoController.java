@@ -44,11 +44,36 @@ public class TodoController {
             filteredTodos = filterStatus(queryParams.get("status")[0], filteredTodos);
         }
 
+        // Filters todos that don't contain a keyword out
         if (queryParams.containsKey("contains")){
             filteredTodos = filterContains(queryParams.get("contains")[0], filteredTodos);
         }
 
+        if (queryParams.containsKey("owner")){
+            filteredTodos = filterOwner(queryParams.get("owner")[0], filteredTodos);
+        }
+
         return filteredTodos;
+    }
+
+    public Todo[] filterOwner(String owner, Todo[] filteredTodos){
+        int size = 0;
+
+        for (Todo todo : filteredTodos){
+            if (todo.owner.equals(owner))
+                size++;
+        }
+
+        Todo[] ownerTodos = new Todo[size];
+        size = 0;
+
+        for (Todo todo : filteredTodos){
+            if (todo.owner.equals(owner)){
+                ownerTodos[size++] = todo;
+            }
+        }
+
+        return ownerTodos;
     }
 
     // Filters a given array of Todos by their status.
