@@ -13,6 +13,10 @@ window.onload = function() {
     element.addEventListener("click", getAllUsers, true);
 }
 
+function returnKittens(){
+    return "kittens";
+}
+
 
 /**
  * Function to get all the users!

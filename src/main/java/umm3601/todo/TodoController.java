@@ -69,31 +69,23 @@ public class TodoController {
     //Takes a string to be the category to sort by, and a Todo[] to sort
     //returns a Todo[]
     public Todo[] sortTodos(String field, Todo[] todos){
-        ArrayList<Todo> ALTodos = new ArrayList<Todo>();
-        for (Todo todo : todos){
-            ALTodos.add(todo);
-        }
+        ArrayList<Todo> todoList = new ArrayList<Todo>();
+        for (Todo todo : todos)
+            todoList.add(todo);
 
         Comparator<Todo> sortTodos = new Comparator<Todo>() {
             public int compare(Todo todo1, Todo todo2) {
-                if (field.equals("owner")) {
-                    return todo1.owner.compareTo(todo2.owner);
-                } else if (field.equals("body")) {
-                    return todo1.body.compareTo(todo2.body);
-                } else if (field.equals("category")) {
-                    return todo1.category.compareTo(todo2.category);
-                } else if (field.equals("status")) {
-                    return todo1.compareTo(todo2);
-                } else if (field.equals("id")){
-                    return todo1._id.compareTo(todo2._id);
-                } else {
-                    return 0;
-                }
+                if (field.equals("owner")) return todo1.owner.compareTo(todo2.owner);
+                 else if (field.equals("body")) return todo1.body.compareTo(todo2.body);
+                 else if (field.equals("category")) return todo1.category.compareTo(todo2.category);
+                 else if (field.equals("status")) return todo1.compareTo(todo2);
+                 else if (field.equals("id")) return todo1._id.compareTo(todo2._id);
+                 else return 0;
             }
         };
 
-        ALTodos.sort(sortTodos);
-        return ALTodos.toArray(todos);
+        todoList.sort(sortTodos);
+        return todoList.toArray(todos);
     }
 
     //filters a Todo[] by what category it's in
