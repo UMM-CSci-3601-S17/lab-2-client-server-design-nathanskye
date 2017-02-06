@@ -211,7 +211,7 @@ group should implement a new web page to make accessing your
 API easier.
 
 * Create a new HTML file called `todo.html`
-* Create a new Javascript file called `todo.js`
+* Create a new Javascript file called `todos.js`
 
 > Make sure you create these files in the right locations! ;)
 

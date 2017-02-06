@@ -1,20 +1,43 @@
 window.onload = function() {
     console.log("The page is loaded now!");
 
-    var element = document.getElementById('search');
-    element.addEventListener("click", search, true);
+    var filterElement = document.getElementById('filter');
+    filterElement.addEventListener("click", filter, true);
+
+    var retrieveElement = document.getElementById('retrieve');
+    retrieveElement.addEventListener("click", retrieve, true);
 }
 
-var search = function() {
+// Retrieves a todo by an id number
+var retrieve = function() {
+
+    var request = "/api/todos/";
+    var temp;
+
+    if( (temp = document.getElementById("id").value) != "")
+        request = request.concat(temp);
+
+    var HttpThingy = new HttpClient();
+    HttpThingy.get(request, function(returned_json){
+        document.getElementById('jsonOutput').innerHTML = returned_json;
+    });
+
+    return request;
+
+}
+
+function returnKittens(){
+    return "kittens";
+}
+
+// Retrieve todos by filtering between owner, status, keyword, category and limit
+var filter = function() {
 
     var request = "/api/todos?";
     var temp;
 
     if( (temp = document.getElementById("owner").value) != "")
         request = request.concat("owner=" + temp + "&");
-
-    if( (temp = document.getElementById("status").value) != "")
-        request = request.concat("status=" + temp + "&");
 
     if( (temp = document.getElementById("keyword").value) != "")
         request = request.concat("contains=" + temp + "&");
@@ -25,7 +48,8 @@ var search = function() {
     if( (temp = document.getElementById("limit").value) != "")
         request = request.concat("limit=" + temp + "&");
 
-    //document.getElementById("jsonOutput").innerHTML = request;
+    if( (temp = document.getElementById("status").value) != "")
+        request = request.concat("status=" + temp + "&");
 
     var HttpThingy = new HttpClient();
     HttpThingy.get(request, function(returned_json){
@@ -33,6 +57,8 @@ var search = function() {
     });
 
 }
+
+
 
 /**
  * Wrapper to make generating http requests easier. Should maybe be moved

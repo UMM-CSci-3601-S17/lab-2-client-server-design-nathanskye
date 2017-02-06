@@ -132,7 +132,7 @@ public class TodoController {
     }
 
     //Filters a Todo[] to contain only a given word
-    //Takes a string to search for, and a Todo[] to search in
+    //Takes a string to filter for, and a Todo[] to filter in
     //Returns a Todo[]
     public Todo[] filterContains(String filter, Todo[] todos){
         ArrayList<Todo> filteredTodos = new ArrayList<>();

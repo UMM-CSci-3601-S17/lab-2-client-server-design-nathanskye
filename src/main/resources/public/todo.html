@@ -3,24 +3,26 @@
 <head>
     <meta charset="UTF-8">
     <title>Todos</title>
-    <script type="text/javascript" src="javascript/todo.js"> </script>
+    <script type="text/javascript" src="javascript/todos.js"> </script>
 </head>
 <body>
 
     <h1>Filter Todos</h1>
 
-    <span>ID</span> <br/>
-    <input type="text" id="id">
+    <hr/>
 
-    <br/>
+    <h2>Retrieve Todo by ID</h2>
+
+    <span>ID</span> <br/>
+    <input type="text" style="margin-bottom: 20px" id="id"> <br/>
+    <button type="button" id="retrieve">Retrieve</button>
+
+    <br/> <br/> <hr/>
+
+    <h2>Filter Todo</h2>
 
     <span>Owner</span> <br/>
     <input type="text" id="owner">
-
-    <br/>
-
-    <span>Status</span> <br/>
-    <input type="text" id="status">
 
     <br/>
 
@@ -37,9 +39,20 @@
     <span>Maximum Entries</span> <br/>
     <input type="text" id="limit">
 
+    <br/>
+
+    <span>Status</span> <br/>
+    <!--<input type="text" id="status">-->
+
+    <select id="status">
+        <option value=""></option>
+        <option value="complete">Complete</option>
+        <option value="incomplete">Incomplete</option>
+    </select>
+
     <br/> <br/>
 
-    <button type="button" id="search">Search</button>
+    <button type="button" id="filter">Filter</button>
 
     <br/> <br/> <hr/>
 

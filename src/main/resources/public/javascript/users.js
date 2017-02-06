@@ -10,7 +10,7 @@ window.onload = function() {
     console.log("The page is loaded now!");
 
     var element = document.getElementById('getAll');
-    element.addEventListener("click", getAllUsers, true);
+    //element.addEventListener("click", getAllUsers, true);
 }
 
 function returnKittens(){

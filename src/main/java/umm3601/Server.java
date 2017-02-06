@@ -30,6 +30,9 @@ public class Server {
         // Redirect for the Users Form
         redirect.get("/users", "/users.html");
 
+        // Redirector for the Todos form
+        redirect.get("/todo", "/todo.html");
+
         // For a question mark question
         get("/kittens", (req, res) -> {
             return "meow";
