@@ -40,31 +40,39 @@ public class TodoController {
         }
 
         // Filters todos by status
-        if (queryParams.containsKey("status")){
-            boolean status = queryParams.get("status")[0].equals("complete");
+        if (queryParams.containsKey("status")) {
+            filteredTodos = filterContains(queryParams.get("status")[0], filteredTodos);
+        }
 
-            int size = 0;
+        if (queryParams.containsKey("contains")){
 
-            for (int i = 0; i < filteredTodos.length; i++){
-                if (filteredTodos[i].status == status){
-                    size++;
-                }
-            }
-
-            Todo[] statusTodos = new Todo[size];
-            size = 0;
-
-            for (int i = 0; i < todos.length; i++){
-                if (filteredTodos[i].status == status){
-                    statusTodos[size] = filteredTodos[i];
-                    size++;
-                }
-            }
-
-            filteredTodos = statusTodos;
         }
 
         return filteredTodos;
+    }
+
+    public Todo[] filterContains(String Status, Todo[] filteredTodos){
+        boolean status = Status.equals("complete");
+
+        int size = 0;
+
+        for (int i = 0; i < filteredTodos.length; i++){
+            if (filteredTodos[i].status == status){
+                size++;
+            }
+        }
+
+        Todo[] statusTodos = new Todo[size];
+        size = 0;
+
+        for (int i = 0; i < todos.length; i++){
+            if (filteredTodos[i].status == status){
+                statusTodos[size] = filteredTodos[i];
+                size++;
+            }
+        }
+
+        return statusTodos;
     }
 //
 //    // Filter todos by age
