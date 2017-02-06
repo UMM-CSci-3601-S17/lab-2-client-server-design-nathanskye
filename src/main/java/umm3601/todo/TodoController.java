@@ -4,6 +4,7 @@ import com.google.gson.Gson;
 
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Map;
 
@@ -36,6 +37,31 @@ public class TodoController {
             for (int i = 0; i < max; i++){
                 filteredTodos[i] = todos[i];
             }
+        }
+
+        // Filters todos by status
+        if (queryParams.containsKey("status")){
+            boolean status = queryParams.get("status")[0].equals("complete");
+
+            int size = 0;
+
+            for (int i = 0; i < filteredTodos.length; i++){
+                if (filteredTodos[i].status == status){
+                    size++;
+                }
+            }
+
+            Todo[] statusTodos = new Todo[size];
+            size = 0;
+
+            for (int i = 0; i < todos.length; i++){
+                if (filteredTodos[i].status == status){
+                    statusTodos[size] = filteredTodos[i];
+                    size++;
+                }
+            }
+
+            filteredTodos = statusTodos;
         }
 
         return filteredTodos;
