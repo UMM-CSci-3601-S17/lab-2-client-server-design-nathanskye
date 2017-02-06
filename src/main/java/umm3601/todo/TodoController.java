@@ -100,23 +100,13 @@ public class TodoController {
     //Takes a String to be the category, and a Todo[] to filter
     //Returns a Todo[]
     public Todo[] filterCategory(String category, Todo[] todos){
-        int size = 0;
+        ArrayList<Todo> filteredTodos = new ArrayList<>();
 
-        for (Todo todo : todos){
-            if (todo.category.equals(category))
-                size++;
-        }
+        for (Todo t : todos)
+            if (t.category.equals(category))
+                filteredTodos.add(t);
 
-        Todo[] categoryTodos = new Todo[size];
-        size = 0;
-
-        for (Todo todo : todos){
-            if (todo.category.equals(category)){
-                categoryTodos[size++] = todo;
-            }
-        }
-
-        return categoryTodos;
+        return filteredTodos.toArray(new Todo[filteredTodos.size()]);
     }
 
     //filters a Todo[] by who the owner is
