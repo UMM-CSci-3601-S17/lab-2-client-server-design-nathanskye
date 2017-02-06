@@ -2,39 +2,45 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Users</title>
-    <script type="text/javascript" src="javascript/todos.js"> </script>
+    <title>Todos</title>
+    <script type="text/javascript" src="javascript/todo.js"> </script>
 </head>
 <body>
 
     <h1>Filter Todos</h1>
 
     <span>ID</span> <br/>
-    <input type="text" name="id">
+    <input type="text" id="id">
 
     <br/>
 
     <span>Owner</span> <br/>
-    <input type="text" name="owner">
+    <input type="text" id="owner">
 
     <br/>
 
     <span>Status</span> <br/>
-    <input type="text" name="status">
+    <input type="text" id="status">
 
     <br/>
 
     <span>Contains Keyword</span> <br/>
-    <input type="text" name="keyword">
+    <input type="text" id="keyword">
 
     <br/>
 
     <span>Category</span> <br/>
-    <input type="text" name="category">
+    <input type="text" id="category">
 
     <br/> <br/>
 
     <button type="button" id="search">Search</button>
+
+    <br/> <br/> <hr/>
+
+    <h2>Results</h2>
+
+    <div id="jsonOutput"></div>
 
 </body>
 </html>
