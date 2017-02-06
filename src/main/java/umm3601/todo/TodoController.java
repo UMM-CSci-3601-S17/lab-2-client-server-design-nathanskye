@@ -4,7 +4,6 @@ import com.google.gson.Gson;
 
 import java.io.FileReader;
 import java.io.IOException;
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
@@ -14,41 +13,41 @@ import java.util.Map;
  * Created by benek020 on 2/1/17.
  */
 public class TodoController {
-    private Todo[] todos;
+    private Todo[] allTodos;
 
     public TodoController() throws IOException {
         Gson gson = new Gson();
         FileReader reader = new FileReader("src/main/data/todos.json");
-        todos = gson.fromJson(reader, Todo[].class);
+        allTodos = gson.fromJson(reader, Todo[].class);
     }
 
-    // List todos
+    // List allTodos
     public Todo[] listTodos(Map<String, String[]> queryParams) {
-        Todo[] filteredTodos = todos;
+        Todo[] todos = allTodos;
 
-        // Filters todos by status
+        // Filters allTodos by status
         if (queryParams.containsKey("status")) {
-            filteredTodos = filterStatus(queryParams.get("status")[0], filteredTodos);
+            todos = filterStatus(queryParams.get("status")[0], todos);
         }
 
-        // Filters todos that don't contain a keyword out
+        // Filters allTodos that don't contain a keyword out
         if (queryParams.containsKey("contains")){
-            filteredTodos = filterContains(queryParams.get("contains")[0], filteredTodos);
+            todos = filterContains(queryParams.get("contains")[0], todos);
         }
 
         if (queryParams.containsKey("owner")){
-            filteredTodos = filterOwner(queryParams.get("owner")[0], filteredTodos);
+            todos = filterOwner(queryParams.get("owner")[0], todos);
         }
 
         if (queryParams.containsKey("category")){
-            filteredTodos = filterCategory(queryParams.get("category")[0], filteredTodos);
+            todos = filterCategory(queryParams.get("category")[0], todos);
         }
 
         if (queryParams.containsKey("orderBy")){
-            filteredTodos = sortTodos(queryParams.get("orderBy")[0], filteredTodos);
+            todos = sortTodos(queryParams.get("orderBy")[0], todos);
         }
 
-        // Retrieves a maximum, max, number of todos
+        // Retrieves a maximum, max, number of allTodos
         if(queryParams.containsKey("limit")) {
             int max = Integer.parseInt(queryParams.get("limit")[0]);
 
@@ -56,22 +55,22 @@ public class TodoController {
             if(max > 300)
                 max = 300;
 
-            filteredTodos = new Todo[max];
+            todos = new Todo[max];
 
             for (int i = 0; i < max; i++){
-                filteredTodos[i] = todos[i];
+                todos[i] = allTodos[i];
             }
         }
 
-        return filteredTodos;
+        return todos;
     }
 
     //Sorts a Todo[] alphabetically by a given category
     //Takes a string to be the category to sort by, and a Todo[] to sort
     //returns a Todo[]
-    public Todo[] sortTodos(String field, Todo[] filteredTodos){
+    public Todo[] sortTodos(String field, Todo[] todos){
         ArrayList<Todo> ALTodos = new ArrayList<Todo>();
-        for (Todo todo : filteredTodos){
+        for (Todo todo : todos){
             ALTodos.add(todo);
         }
 
@@ -94,16 +93,16 @@ public class TodoController {
         };
 
         ALTodos.sort(sortTodos);
-        return ALTodos.toArray(filteredTodos);
+        return ALTodos.toArray(todos);
     }
 
     //filters a Todo[] by what category it's in
     //Takes a String to be the category, and a Todo[] to filter
     //Returns a Todo[]
-    public Todo[] filterCategory(String category, Todo[] filteredTodos){
+    public Todo[] filterCategory(String category, Todo[] todos){
         int size = 0;
 
-        for (Todo todo : filteredTodos){
+        for (Todo todo : todos){
             if (todo.category.equals(category))
                 size++;
         }
@@ -111,7 +110,7 @@ public class TodoController {
         Todo[] categoryTodos = new Todo[size];
         size = 0;
 
-        for (Todo todo : filteredTodos){
+        for (Todo todo : todos){
             if (todo.category.equals(category)){
                 categoryTodos[size++] = todo;
             }
@@ -123,10 +122,10 @@ public class TodoController {
     //filters a Todo[] by who the owner is
     //Takes a String to be the owner, and a Todo[] to filter
     //Returns a Todo[]
-    public Todo[] filterOwner(String owner, Todo[] filteredTodos){
+    public Todo[] filterOwner(String owner, Todo[] todos){
         int size = 0;
 
-        for (Todo todo : filteredTodos){
+        for (Todo todo : todos){
             if (todo.owner.equals(owner))
                 size++;
         }
@@ -134,7 +133,7 @@ public class TodoController {
         Todo[] ownerTodos = new Todo[size];
         size = 0;
 
-        for (Todo todo : filteredTodos){
+        for (Todo todo : todos){
             if (todo.owner.equals(owner)){
                 ownerTodos[size++] = todo;
             }
@@ -146,64 +145,39 @@ public class TodoController {
     // Filters a given array of Todos by their status.
     // Takes a String Status, either "complete" or "incomplete" and a Todo[].
     // Returns a Todo[]
-    public Todo[] filterStatus(String Status, Todo[] filteredTodos){
-        boolean status = Status.equals("complete");
+    public Todo[] filterStatus(String statusFilter, Todo[] todos){
+        boolean filter = statusFilter.equals("complete");
 
-        int size = 0;
+        ArrayList<Todo> myTodos = new ArrayList<>();
 
-        for (int i = 0; i < filteredTodos.length; i++){
-            if (filteredTodos[i].status == status){
-                size++;
-            }
-        }
+        for(Todo t : todos)
+            if(t.status == filter)
+                myTodos.add(t);
 
-        Todo[] statusTodos = new Todo[size];
-        size = 0;
-
-        for (int i = 0; i < todos.length; i++){
-            if (filteredTodos[i].status == status){
-                statusTodos[size] = filteredTodos[i];
-                size++;
-            }
-        }
-
-        return statusTodos;
+        return myTodos.toArray(new Todo[myTodos.size()]);
     }
 
     //Filters a Todo[] to contain only a given word
     //Takes a string to search for, and a Todo[] to search in
     //Returns a Todo[]
-    public Todo[] filterContains(String filter, Todo[] filteredTodos){
-        int size = 0;
+    public Todo[] filterContains(String filter, Todo[] todos){
+        ArrayList<Todo> filteredTodos = new ArrayList<>();
 
-        for (Todo todo : filteredTodos){
-            String body = todo.body;
-            if (body.contains(filter))
-                size++;
-        }
+        for(Todo t : todos)
+            if(t.body.contains(filter))
+                filteredTodos.add(t);
 
-        Todo[] containTodos = new Todo[size];
-        size = 0;
-
-        for (Todo todo : filteredTodos){
-            if (todo.body.contains(filter))
-                containTodos[size++] = todo;
-        }
-
-        return containTodos;
+        return filteredTodos.toArray(new Todo[filteredTodos.size()]);
     }
 //
-//    // Filter todos by age
-//    public Todo[] filterTodosByAge(Todo[] filteredTodos, int age) {
-//        return Arrays.stream(filteredTodos).filter(x -> x.age == age).toArray(Todo[]::new);
+//    // Filter allTodos by age
+//    public Todo[] filterTodosByAge(Todo[] todos, int age) {
+//        return Arrays.stream(todos).filter(x -> x.age == age).toArray(Todo[]::new);
 //    }
 //
     // Get a single todo
     public Todo getTodo(String id) {
-        return Arrays.stream(todos).filter(x -> x._id.equals(id)).findFirst().orElse(null);
- }
-
-
-
+        return Arrays.stream(allTodos).filter(x -> x._id.equals(id)).findFirst().orElse(null);
+    }
 }
 
