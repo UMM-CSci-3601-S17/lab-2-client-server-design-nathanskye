@@ -5,25 +5,33 @@ window.onload = function() {
     filterElement.addEventListener("click", filter, true);
 
     var retrieveElement = document.getElementById('retrieve');
-    retrieveElement.addEventListener("click", retrieve, true);
+    retrieveElement.addEventListener("click", retrieveHandler, true);
 }
 
-// Retrieves a todo by an id number
-var retrieve = function() {
+// Wrapper for ID retrievals
+// Makes testing with Karma easier
+function retrieveHandler(){
+    var request = retrieve(document.getElementById("id").value);
+    if(request != "/api/todos/")
+        sendHTTPRequest(request);
+}
 
-    var request = "/api/todos/";
-    var temp;
-
-    if( (temp = document.getElementById("id").value) != "")
-        request = request.concat(temp);
-
+function sendHTTPRequest(request){
     var HttpThingy = new HttpClient();
     HttpThingy.get(request, function(returned_json){
         document.getElementById('jsonOutput').innerHTML = returned_json;
     });
+}
+
+// Retrieves and returns a todo by an id number
+var retrieve = function(id) {
+
+    var request = "/api/todos/";
+
+    if(id != "")
+        request = request.concat(id);
 
     return request;
-
 }
 
 function returnKittens(){
