@@ -2,7 +2,7 @@ window.onload = function() {
     console.log("The page is loaded now!");
 
     var filterElement = document.getElementById('filter');
-    filterElement.addEventListener("click", filter, true);
+    filterElement.addEventListener("click", filterHandler, true);
 
     var retrieveElement = document.getElementById('retrieve');
     retrieveElement.addEventListener("click", retrieveHandler, true);
@@ -12,6 +12,20 @@ window.onload = function() {
 // Makes testing with Karma easier
 function retrieveHandler(){
     var request = retrieve(document.getElementById("id").value);
+    if(request != "/api/todos/")
+        sendHTTPRequest(request);
+}
+
+function filterHandler(){
+
+    var request = filter( document.getElementById("owner").value,
+                          document.getElementById("keyword").value,
+                          document.getElementById("category").value,
+                          document.getElementById("limit").value,
+                          document.getElementById("status").value,
+                          document.querySelector('input[name = "sortGroup"]:checked').value
+                           );
+
     if(request != "/api/todos/")
         sendHTTPRequest(request);
 }
@@ -34,36 +48,30 @@ var retrieve = function(id) {
     return request;
 }
 
-function returnKittens(){
-    return "kittens";
-}
-
 // Retrieve todos by filtering between owner, status, keyword, category and limit
-var filter = function() {
+var filter = function(owner, keyword, category, limit, status, orderBy) {
 
     var request = "/api/todos?";
-    var temp;
 
-    if( (temp = document.getElementById("owner").value) != "")
-        request = request.concat("owner=" + temp + "&");
+    if( owner != "")
+        request = request.concat("owner=" + owner + "&");
 
-    if( (temp = document.getElementById("keyword").value) != "")
-        request = request.concat("contains=" + temp + "&");
+    if( keyword != "")
+        request = request.concat("contains=" + keyword + "&");
 
-    if( (temp = document.getElementById("category").value) != "")
-        request = request.concat("category=" + temp + "&");
+    if( category != "")
+        request = request.concat("category=" + category + "&");
 
-    if( (temp = document.getElementById("limit").value) != "")
-        request = request.concat("limit=" + temp + "&");
+    if( limit != "")
+        request = request.concat("limit=" + limit + "&");
 
-    if( (temp = document.getElementById("status").value) != "")
-        request = request.concat("status=" + temp + "&");
+    if( status != "")
+        request = request.concat("status=" + status + "&");
 
-    var HttpThingy = new HttpClient();
-    HttpThingy.get(request, function(returned_json){
-        document.getElementById('jsonOutput').innerHTML = returned_json;
-    });
+    if( orderBy != "")
+        request = request.concat("orderBy=" + orderBy + "&");
 
+    return request;
 }
 
 

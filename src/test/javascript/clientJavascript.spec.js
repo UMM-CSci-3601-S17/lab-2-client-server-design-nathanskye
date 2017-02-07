@@ -1,21 +1,3 @@
-// Just some example testing.
-
-//describe('testing basic functions', function(){
-    // it('should return the correct string length', function(){
-    //     expect(testStringLength("kittens")).toEqual(7);
-    // });
-    //
-    // it('returnKittens should return kittens', function(){
-    //
-    //      var result = document.getElementById("jsonOutput").innerHTML;
-    //  });
-    //
-    //this test should fail.
-    // it('this test should fail!', function(){
-    //     expect(returnKittens()).toBe("kittens");
-    // });
-//});
-
 describe('Testing ID lookup', function(){
 
     it('URL should be generated with correct with ID', function(){
@@ -28,3 +10,8 @@ describe('Testing ID lookup', function(){
 
 });
 
+describe('Testing Filter by many parameters', function(){
+
+
+
+});

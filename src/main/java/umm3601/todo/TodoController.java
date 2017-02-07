@@ -81,7 +81,6 @@ public class TodoController {
                  else if (field.equals("body")) return todo1.body.compareTo(todo2.body);
                  else if (field.equals("category")) return todo1.category.compareTo(todo2.category);
                  else if (field.equals("status")) return todo1.compareTo(todo2);
-                 else if (field.equals("id")) return todo1._id.compareTo(todo2._id);
                  else return 0;
             }
         };
