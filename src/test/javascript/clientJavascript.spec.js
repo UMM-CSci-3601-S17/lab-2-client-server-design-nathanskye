@@ -12,6 +12,14 @@ describe('Testing ID lookup', function(){
 
 describe('Testing Filter by many parameters', function(){
 
+    it('URL should be generated with correct parameter list', function(){
+        expect(filter("Blanche", "ipsum", "groceries", "271", "incomplete", "owner")).toEqual(
+        "/api/todos?owner=Blanche&contains=ipsum&category=groceries&limit=271&status=incomplete&orderBy=owner&");
+    });
 
+    it('URL should be generated with correct parameter list', function(){
+            expect(filter("Fry", "", "video games", "", "complete", "")).toEqual(
+            "/api/todos?owner=Fry&category=video games&status=complete&");
+    });
 
 });
